@@ -1,0 +1,22 @@
+{
+    "name": "orgapi",
+    "version": "1.0.0",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "axios": "^1.8.4",
+        "cheerio": "^1.0.0",
+        "dotenv": "^16.5.0",
+        "express": "^4.21.2",
+        "fs": "^0.0.1-security",
+        "http": "^0.0.1-security",
+        "jsonwebtoken": "^9.0.0",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.14.0",
+        "puppeteer": "^24.6.1",
+        "querystring": "^0.2.1"
+    }
+}
