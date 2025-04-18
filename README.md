@@ -1,6 +1,6 @@
 # Orgapi
 
-Orgapi is an API whose purpose is to record affiliations of citizen in the game Star Citizen
+Orgapi is an API which purpose is to record affiliations of citizens to organizations in the game Star Citizen
 
 ## Installation and Initialisation
 
@@ -196,4 +196,21 @@ Display all registered affiliations of citizen (current and past, since the star
     }
   ]
 }
+```
+
+### Administration of tracking
+
+The endpoint for this part is the following
+```
+/db/ADMIN
+```
+
+To follow an organisation
+```
+/db/ADMIN/followOrg/:SID
+```
+
+To unfollow an organisation
+```
+/db/ADMIN/unfollowOrg/:SID
 ```
