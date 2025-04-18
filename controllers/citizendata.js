@@ -24,11 +24,11 @@ export const getCitizenData = async (handle) => {
         
         let affiliations = [];
         $org('a[href*="/orgs/"]').each((index, element) => {
-            let href = $org(element).attr('href').replace("/orgs/","");
-            affiliations.push(href);
+                let href = $org(element).attr('href').replace("/orgs/","");
+                affiliations.push(href);
         });
         affiliations = affiliations.filter((element, index) => index % 2 === 0);
-        affiliations.splice(0,1);
+        if (mainOrg != "REDACTED"){affiliations.splice(0,1)};
 
         let affiliationsRanks = [];
         $org('span:contains("Organization rank")').each((index, element) => {
@@ -36,7 +36,7 @@ export const getCitizenData = async (handle) => {
             affiliationsRanks.push(href);
         });
         //affiliations = affiliations.filter((element, index) => index % 2 === 0);
-        affiliationsRanks.splice(0,1);
+        if (mainOrg != "REDACTED"){affiliationsRanks.splice(0,1)};
 
         const affiliationJson = []
         for (let i = 0; i<affiliations.length; i++){

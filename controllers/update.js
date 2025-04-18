@@ -61,6 +61,11 @@ export const reviewAllOrgs = async () => {
     return orgList.length;
 };
 
+export const followOrg = async (SID, status) => {
+    await query("UPDATE organization SET followed = ? WHERE SID = ?",[status,SID]);
+    return {"Status":"OK"};
+};
+
 const updOrg = async (SID) => {
     const LIVEmainOrg = await getOrgData(SID);
     const DBmainOrg = await getOrg(SID);
