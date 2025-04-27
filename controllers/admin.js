@@ -69,3 +69,14 @@ export const soldeBetweenOrgs = async (SID1, SID2) => {
 
   return { fromAtoB, fromBtoA, solde, rows };
 };
+
+export const orgHistory = async (SID) => {
+  const lastEntries = await query("SELECT citizenHandle, firstSight FROM affiliation WHERE orgSID = ? AND actif = 1 ORDER BY firstSight DESC LIMIT 7",[SID]);
+  const lastDepartures = await query("SELECT citizenHandle, lastSight FROM affiliation WHERE orgSID = ? AND actif = 0 ORDER BY lastSight DESC LIMIT 7",[SID]);
+  const response = {
+    "SID" : SID,
+    "lastEntries" : lastEntries,
+    "lastDepartures" : lastDepartures
+  };
+  return response;
+};

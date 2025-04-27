@@ -28,6 +28,11 @@ export const getDate = (dateString) => {
     return formattedDate;
   };
 
+export const enlistedToStamp = (dateString) => {
+  var t = dateString.split("/");
+  return t[2]+"/"+t[1]+"/"+t[0];
+}
+
 export const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 };

@@ -1,7 +1,7 @@
 import {query, existRow, getCitizen, getOrg, getAffiliation} from '../middleware/db.js';
 import {getCitizenData} from '../controllers/citizendata.js'; // chemin relatif et syntaxe ES6
 import {getOrgData, getOrgDataWithMembers} from '../controllers/orgdata.js'; // chemin relatif et syntaxe ES6
-import {sleep, appartient} from '../controllers/utils.js';
+import {sleep, appartient, enlistedToStamp} from '../controllers/utils.js';
 
 export const reviewCitizen = async (handle) => {
     //Maj élémentaires
@@ -79,11 +79,12 @@ const updOrg = async (SID) => {
 
 const updCitizen = async (LIVEcitizen) => {
     const DBcitizen = await getCitizen(LIVEcitizen.Handle);
+    console.log(enlistedToStamp(LIVEcitizen.Enlisted));
     if (DBcitizen == false){
-        await query("INSERT INTO citizen (Handle, UCR, Enlisted, Bio) VALUES (?,?,?,?)",[LIVEcitizen.Handle, LIVEcitizen.UCR, LIVEcitizen.Enlisted, LIVEcitizen.Bio]);
+        await query("INSERT INTO citizen (Handle, UCR, Enlisted, Bio) VALUES (?,?,?,?)",[LIVEcitizen.Handle, LIVEcitizen.UCR, enlistedToStamp(LIVEcitizen.Enlisted), LIVEcitizen.Bio]);
     }
     else{
-        await query("UPDATE citizen SET UCR = ?, Enlisted = ?, Bio = ? WHERE Handle = ?",[LIVEcitizen.UCR, LIVEcitizen.Enlisted, LIVEcitizen.Bio, LIVEcitizen.Handle]);
+        await query("UPDATE citizen SET UCR = ?, Enlisted = ?, Bio = ? WHERE Handle = ?",[LIVEcitizen.UCR, enlistedToStamp(LIVEcitizen.Enlisted), LIVEcitizen.Bio, LIVEcitizen.Handle]);
     }
 };
 
