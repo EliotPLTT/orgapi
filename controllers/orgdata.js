@@ -42,13 +42,15 @@ export const getOrgData = async (SID) => {
             }
         }
 
-        return {
+        let data = {
             "SID":SID,
             "orgName":orgName,
             "nbMembers":nbMembers,
             "nbHidden":(nbMembers - members.length),
             "members":members,   
-                }   
+                };
+
+        return data;
     }
     catch (err) {
         console.log(err);

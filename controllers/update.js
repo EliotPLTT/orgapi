@@ -32,8 +32,12 @@ export const reviewOrg = async (SID) => {
     await updOrg(SID);
     const members = LIVEorg.members;
     for (let i = 0; i < members.length; i++){
-        console.log("[~] ("+(i+1)+"/"+(members.length)+")"+members[i]);
-        await updAffiliation(await getCitizen(members[i]), SID, "unknow", false);
+        console.log("[~] ("+(i+1)+"/"+(members.length)+") "+SID+">"+members[i]);
+        let curCitizen = await getCitizen(members[i]);
+        if (curCitizen == false){
+            await updCitizen(await getCitizenData(members[i]));
+            curCitizen = await getCitizen(members[i])};
+        await updAffiliation(curCitizen, SID, "unknow", false);
         //await reviewCitizen(members[i]);
     }
     return members.length
@@ -78,13 +82,13 @@ const updOrg = async (SID) => {
 };
 
 const updCitizen = async (LIVEcitizen) => {
-    const DBcitizen = await getCitizen(LIVEcitizen.Handle);
-    console.log(enlistedToStamp(LIVEcitizen.Enlisted));
+    const DBcitizen = await getCitizen(LIVEcitizen.Handle, LIVEcitizen.Enlisted);
+    //console.log(enlistedToStamp(LIVEcitizen.Enlisted));
     if (DBcitizen == false){
-        await query("INSERT INTO citizen (Handle, UCR, Enlisted, Bio) VALUES (?,?,?,?)",[LIVEcitizen.Handle, LIVEcitizen.UCR, enlistedToStamp(LIVEcitizen.Enlisted), LIVEcitizen.Bio]);
+        await query("INSERT INTO citizen (Handle, UCR, Enlisted, Bio) VALUES (?,?,?,?)",[LIVEcitizen.Handle, LIVEcitizen.UCR, LIVEcitizen.Enlisted, LIVEcitizen.Bio]);
     }
     else{
-        await query("UPDATE citizen SET UCR = ?, Enlisted = ?, Bio = ? WHERE Handle = ?",[LIVEcitizen.UCR, enlistedToStamp(LIVEcitizen.Enlisted), LIVEcitizen.Bio, LIVEcitizen.Handle]);
+        await query("UPDATE citizen SET UCR = ?, Enlisted = ?, Bio = ? WHERE Handle = ?",[LIVEcitizen.UCR, LIVEcitizen.Enlisted, LIVEcitizen.Bio, LIVEcitizen.Handle]);
     }
 };
 

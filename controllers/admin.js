@@ -1,4 +1,5 @@
 import {query, existRow, getCitizen, getOrg, getAffiliation} from '../middleware/db.js';
+import {getDate} from './utils.js';
 
 export const showFollowedOrgs = async (handle) => {
     //Maj élémentaires
@@ -80,3 +81,21 @@ export const orgHistory = async (SID) => {
   };
   return response;
 };
+
+export const statDB = async () => {
+  const nbCitizen = await query("SELECT count(*) FROM citizen");
+  const nbOrg = await query("SELECT count(*) FROM organization");
+  const nbAffiliation = await query("SELECT count(*) FROM affiliation");
+  const firstAff = await query("SELECT firstSight FROM affiliation ORDER BY firstSight ASC LIMIT 1");
+  const lastAff = await query("SELECT firstSight FROM affiliation ORDER BY firstSight DESC LIMIT 1");
+
+  const response = {
+    "nbCitizen" : nbCitizen[0]["count(*)"],
+    "nbOrg" : nbOrg[0]["count(*)"],
+    "nbAffiliation" : nbAffiliation[0]["count(*)"],
+    "firstAff" : getDate(firstAff[0]["firstSight"]),
+    "lastAff" : getDate(lastAff[0]["firstSight"])
+  };
+  console.log(response);
+  return response;
+}

@@ -29,8 +29,13 @@ export const getDate = (dateString) => {
   };
 
 export const enlistedToStamp = (dateString) => {
-  var t = dateString.split("/");
-  return t[2]+"/"+t[1]+"/"+t[0];
+  const date = new Date(dateString);
+
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString().slice(-2);
+    const formattedDate = `${year}/${month}/${day}`;
+    return formattedDate;
 }
 
 export const sleep = (ms) => {

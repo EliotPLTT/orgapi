@@ -1,6 +1,6 @@
 import express from 'express';
 import {reviewCitizen, reviewOrg, reviewAllCitizens, reviewAllOrgs, followOrg} from '../controllers/update.js'; // chemin relatif et syntaxe ES6
-import {showFollowedOrgs, showAffiliations, historyOfCitizen, soldeBetweenOrgs, orgHistory} from '../controllers/admin.js'; // chemin relatif et syntaxe ES6
+import {showFollowedOrgs, showAffiliations, historyOfCitizen, soldeBetweenOrgs, orgHistory, statDB} from '../controllers/admin.js'; // chemin relatif et syntaxe ES6
 
 const router = express.Router();
 
@@ -92,6 +92,16 @@ router.use("/STAT/solde/:SID1/:SID2", async (req,res) => {
 router.use("/STAT/orgHistory/:SID", async (req,res) => {
     try {
     let l = await orgHistory(req.params.SID);
+    res.json(l);
+    }
+    catch (err) {
+        res.status(500).json({ error: 'Impossible de récupérer la page', details: err.message });
+    }
+});
+
+router.use("/STAT/statDB", async (req,res) => {
+    try {
+    let l = await statDB();
     res.json(l);
     }
     catch (err) {

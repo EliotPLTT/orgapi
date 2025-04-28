@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import {fetchPage, getDate} from './utils.js';
+import {fetchPage, getDate, enlistedToStamp} from './utils.js';
 
 export const getCitizenData = async (handle) => {
     try {
@@ -7,7 +7,7 @@ export const getCitizenData = async (handle) => {
         let code = await fetchPage(url);
 
         let $citizen = cheerio.load(code);
-        const enlistDate = getDate($citizen('span.label:contains("Enlisted")').next().text());
+        const enlistDate = enlistedToStamp($citizen('span.label:contains("Enlisted")').next().text());
         let mainOrg = "REDACTED";
         try{
             mainOrg = $citizen('a[href*="/orgs/"]').attr("href").replace("/orgs/", "");
@@ -43,7 +43,6 @@ export const getCitizenData = async (handle) => {
             let j = {"org":affiliations[i],"rank":affiliationsRanks[i]};
             affiliationJson.push(j);
         };
-        
         return {"Handle":handle,
             "UCR":UCR,
             "Enlisted":enlistDate,
